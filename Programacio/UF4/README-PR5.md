@@ -1,1 +1,0 @@
-# Detalls pràctica UF 5
