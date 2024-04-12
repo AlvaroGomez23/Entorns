@@ -1,7 +1,8 @@
-import java.util.Calendar;
+
 import java.util.Date;
 
 public class Alimentacio extends Producte{
+
 
     Date dataCaducitat;
 
@@ -11,7 +12,13 @@ public class Alimentacio extends Producte{
     }
 
     public void setPreu() {
-        Calendar c = Calendar.getInstance();
-        //preu = (float) (preu-preu*(1/(dataCaducitat-dataActual+1)) + (preu * 0.1));
+
+        Date dataActual = new Date(System.currentTimeMillis());
+        preu = (float) (preu-preu*(1/(dataCaducitat.getTime()-dataActual.getTime()+1)) + (preu * 0.1));
+
+        System.out.println(preu);
     }
+
+
+
 }
