@@ -1,4 +1,4 @@
-abstract public class Producte {
+public class Producte {
 
     float preu;
     String nom;
