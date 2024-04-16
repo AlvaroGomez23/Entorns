@@ -55,7 +55,7 @@ public class Main {
     static void afegirAlimentacio() {
 
         try {
-            String nom = "Guabaya";
+            String nom = "Guayaba";
             float preu = 0;
             String codiBarres = "0";
             //Date dataCaducitat = "0";
@@ -86,17 +86,69 @@ public class Main {
     }
 
     static void afegirTextil() {
-        String nom;
-        float preu;
-        String composicio;
-        String codiBarres;
+
+        try {
+            String nom;
+            float preu;
+            String composicio;
+            String codiBarres;
+            System.out.println("Afegir textil");
+            System.out.print("Nom: ");
+            nom = scan.nextLine();
+
+            System.out.print("Preu: ");
+            preu = scan.nextInt();
+            scan.nextLine();
+
+            System.out.print("Composició: ");
+            composicio = scan.nextLine();
+
+            System.out.println("Codi de barres: ");
+            codiBarres = scan.nextLine();
+
+            Textil roba = new Textil(preu, nom, codiBarres, composicio);
+        } catch (InputMismatchException e){
+            System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
+            System.out.println("Torna a introduir el producte");
+            afegirTextil();
+        } catch (Exception e) {
+            System.out.println("Hi ha hagut un problema al afegir el producte"+e.getCause());
+            System.out.println("Torna a introduir el producte");
+            afegirTextil();
+        }
     }
 
     static void afegirElectronica() {
-        String nom;
-        float preu;
-        int garantia;
-        String codiBarres;
+        try {
+            String nom;
+            float preu;
+            int garantia;
+            String codiBarres;
+            System.out.println("Afegir electrònica");
+            System.out.print("Nom: ");
+            nom = scan.nextLine();
+
+            System.out.print("Preu: ");
+            preu = scan.nextInt();
+            scan.nextLine();
+
+            System.out.print("Garantia (Dies): ");
+            garantia = scan.nextInt();
+            scan.nextLine();
+
+            System.out.println("Codi de barres: ");
+            codiBarres = scan.nextLine();
+
+            Electronica electronica = new Electronica(preu, nom, codiBarres, garantia);
+        } catch (InputMismatchException e){
+            System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
+            System.out.println("Torna a introduir el producte");
+            afegirElectronica();
+        } catch (Exception e) {
+            System.out.println("Hi ha hagut un problema al afegir el producte"+e.getCause());
+            System.out.println("Torna a introduir el producte");
+            afegirElectronica();
+        }
     }
 
     
