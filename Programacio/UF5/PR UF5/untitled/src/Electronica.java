@@ -6,4 +6,13 @@ public class Electronica extends Producte{
         super(preu, nom, codiBarres);
         this.diesGarantia = diesGarantia;
     }
+
+    @Override
+    public String toString() {
+        return "Electronica [preu=" + preu + ", diesGarantia=" + diesGarantia + ", nom=" + nom + ", codiBarres="
+                + codiBarres + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+                + super.toString() + "]";
+    }
+
+    
 }

@@ -1,12 +1,14 @@
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
 
     static Scanner scan = new Scanner(System.in);
-    static ArrayList<Producte> productes = new ArrayList<Producte>();
+    static Map<String, Producte> prodMap = new HashMap<String, Producte>();
     public static void main(String[] args) {
 
         int opcio = 0;
@@ -14,7 +16,6 @@ public class Main {
         System.out.println("1. Demanar productes");
         System.out.println("2. Passar per caixa");
         System.out.println("3. Mostrar carro");
-
         System.out.println("0. Acabar");
         opcio = scan.nextInt();
 
@@ -48,6 +49,13 @@ public class Main {
                 }
 
                 break;
+            case 2:
+                //Cridar a passar per caixa
+                break;
+            case 3:
+                mostrarCarro();
+                
+                break;
         
             default:
                 //Sortir del programa
@@ -60,6 +68,7 @@ public class Main {
     static void afegirAlimentacio() {
 
         try {
+            String tipus = "Alimentacio";
             String nom = "Guayaba";
             float preu = 0;
             String codiBarres = "0";
@@ -80,7 +89,8 @@ public class Main {
             //dataCaducitat = scan.nextLine();
             Alimentacio aliment = new Alimentacio(preu, nom, codiBarres, null);
 
-            productes.add(aliment);
+            prodMap.put(tipus, aliment);
+
         } catch (InputMismatchException e){
             System.out.println("Hi ha hagut un problema al afegir el aliment (Dades introduides malament)");
             System.out.println("Torna a introduir el producte");
@@ -95,6 +105,7 @@ public class Main {
     static void afegirTextil() {
 
         try {
+            String tipus = "Textil";
             String nom;
             float preu;
             String composicio;
@@ -115,7 +126,7 @@ public class Main {
 
             Textil roba = new Textil(preu, nom, codiBarres, composicio);
 
-            productes.add(roba);
+            prodMap.put(tipus, roba);
         } catch (InputMismatchException e){
             System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
             System.out.println("Torna a introduir el producte");
@@ -129,6 +140,7 @@ public class Main {
 
     static void afegirElectronica() {
         try {
+            String tipus = "Electronica";
             String nom;
             float preu;
             int garantia;
@@ -150,7 +162,7 @@ public class Main {
 
             Electronica electronica = new Electronica(preu, nom, codiBarres, garantia);
             
-            productes.add(electronica);
+            prodMap.put(tipus, electronica);
         } catch (InputMismatchException e){
             System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
             System.out.println("Torna a introduir el producte");
@@ -160,5 +172,13 @@ public class Main {
             System.out.println("Torna a introduir el producte");
             afegirElectronica();
         }
+    }
+
+    public static void mostrarCarro() {
+        
+    }
+
+    public static void comprovarClasse() {
+        
     }
 }
