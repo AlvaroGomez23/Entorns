@@ -9,8 +9,14 @@ public class Textil extends Producte{
 
     @Override
     public String toString() {
-        return "Textil [preu=" + preu + ", composicio=" + composicio + ", nom=" + nom + ", codiBarres=" + codiBarres
+        return "Textil [nom=" + nom + ", preu=" + preu + ", composicio=" + composicio + ", codiBarres=" + codiBarres
                 +  "]";
+    }
+
+    @Override
+    public float getPreu() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPreu'");
     }
 
     

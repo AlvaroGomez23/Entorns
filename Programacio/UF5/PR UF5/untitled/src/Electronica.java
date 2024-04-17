@@ -7,9 +7,21 @@ public class Electronica extends Producte{
         this.diesGarantia = diesGarantia;
     }
 
+    public int setPreuDiesGarantia(int preuDiesGarantia) {
+
+        preuDiesGarantia = (int) (preu + preu*(diesGarantia/365)*0.1);
+        return preuDiesGarantia;
+    }
+
+    @Override
+    public float getPreu() {
+        return setPreuDiesGarantia(diesGarantia);
+
+    }
+
     @Override
     public String toString() {
-        return "Electronica [preu=" + preu + ", diesGarantia=" + diesGarantia + ", nom=" + nom + ", codiBarres="
+        return "Electronica [nom=" + nom + ", preu=" + getPreu() + ", diesGarantia=" + diesGarantia +  "codiBarres="
                 + codiBarres + "]";
     }
 

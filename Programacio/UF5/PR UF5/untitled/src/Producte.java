@@ -1,4 +1,4 @@
-public class Producte implements Comparable {
+public abstract class Producte implements Comparable {
 
     float preu;
     String nom;
@@ -12,8 +12,10 @@ public class Producte implements Comparable {
 
     @Override
     public String toString() {
-        return "Producte [preu=" + preu + ", nom=" + nom + ", codiBarres=" + codiBarres + "]";
+        return "Producte [nom=" + nom + ", preu=" + preu +  ", codiBarres=" + codiBarres + "]";
     }
+
+    public abstract float getPreu();
 
     @Override
     public int compareTo(Object o) {

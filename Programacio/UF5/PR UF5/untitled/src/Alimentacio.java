@@ -21,8 +21,14 @@ public class Alimentacio extends Producte{
 
     @Override
     public String toString() {
-        return "Alimentacio [preu=" + preu + ", nom=" + nom + ", codiBarres=" + codiBarres + ", dataCaducitat="
+        return "Alimentacio [nom=" + nom + ", preu=" + preu  + ", codiBarres=" + codiBarres + ", dataCaducitat="
                 + dataCaducitat + "]";
+    }
+
+    @Override
+    public float getPreu() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPreu'");
     }
 
     
