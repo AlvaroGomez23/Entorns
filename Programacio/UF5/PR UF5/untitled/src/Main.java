@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -5,20 +6,24 @@ import java.util.Scanner;
 public class Main {
 
     static Scanner scan = new Scanner(System.in);
+    static ArrayList<Producte> productes = new ArrayList<Producte>();
     public static void main(String[] args) {
 
         int opcio = 0;
         System.out.println("Quina opció vols?");
         System.out.println("1. Demanar productes");
+        System.out.println("2. Passar per caixa");
+        System.out.println("3. Mostrar carro");
+
         System.out.println("0. Acabar");
         opcio = scan.nextInt();
 
         switch (opcio) {
             case 1:
                 int op2 = 0;
-                System.out.println("-------------");
-                System.out.println("PRODUCTE");
-                System.out.println("-------------");
+                System.out.println("------------");
+                System.out.println("--PRODUCTE--");
+                System.out.println("------------");
                 System.out.println("Quin tipus de producte vols?");
                 System.out.println("1. Alimentacio");
                 System.out.println("2. Tèxtil");
@@ -74,6 +79,8 @@ public class Main {
             System.out.println();
             //dataCaducitat = scan.nextLine();
             Alimentacio aliment = new Alimentacio(preu, nom, codiBarres, null);
+
+            productes.add(aliment);
         } catch (InputMismatchException e){
             System.out.println("Hi ha hagut un problema al afegir el aliment (Dades introduides malament)");
             System.out.println("Torna a introduir el producte");
@@ -107,6 +114,8 @@ public class Main {
             codiBarres = scan.nextLine();
 
             Textil roba = new Textil(preu, nom, codiBarres, composicio);
+
+            productes.add(roba);
         } catch (InputMismatchException e){
             System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
             System.out.println("Torna a introduir el producte");
@@ -140,6 +149,8 @@ public class Main {
             codiBarres = scan.nextLine();
 
             Electronica electronica = new Electronica(preu, nom, codiBarres, garantia);
+            
+            productes.add(electronica);
         } catch (InputMismatchException e){
             System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
             System.out.println("Torna a introduir el producte");
