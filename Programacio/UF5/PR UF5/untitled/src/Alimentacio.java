@@ -19,6 +19,13 @@ public class Alimentacio extends Producte{
         System.out.println(preu);
     }
 
+    @Override
+    public String toString() {
+        return "Alimentacio [preu=" + preu + ", nom=" + nom + ", codiBarres=" + codiBarres + ", dataCaducitat="
+                + dataCaducitat + "]";
+    }
+
+    
 
 
 }
