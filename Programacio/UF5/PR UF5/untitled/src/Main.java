@@ -100,9 +100,8 @@ public class Main {
                 System.out.print("Data de caducitat: ");
                 System.out.println();
                 //dataCaducitat = scan.nextLine();
-                Alimentacio aliment = new Alimentacio(preu, nom, codiBarres, null);
-
-                prodMap.put(tipus, aliment);
+                
+                productes.add(new Alimentacio(preu, nom, codiBarres, null));
                 menuSecundari();
             } catch (InputMismatchException e){
                 System.out.println("Hi ha hagut un problema al afegir el aliment (Dades introduides malament)");
@@ -137,8 +136,7 @@ public class Main {
                 System.out.println("Codi de barres: ");
                 codiBarres = scan.nextLine();
 
-                Textil roba = new Textil(preu, nom, codiBarres, composicio);
-                prodMap.put(tipus, roba);
+                productes.add(new Textil(preu, nom, codiBarres, composicio));
                 menuSecundari();
             } catch (InputMismatchException e){
                 System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
@@ -173,8 +171,7 @@ public class Main {
                 System.out.println("Codi de barres: ");
                 codiBarres = scan.nextLine();
 
-                Electronica electronica = new Electronica(preu, nom, codiBarres, garantia);
-                prodMap.put(tipus, electronica);
+                productes.add(new Electronica(preu, nom, codiBarres, garantia));
                 menuSecundari();
             } catch (InputMismatchException e){
                 System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
@@ -188,7 +185,7 @@ public class Main {
         }
 
         public static void mostrarCarro() {
-            System.out.println(prodMap.toString());
+            System.out.println(productes.toString());
         }
 
         public static void comprovarClasse() {
