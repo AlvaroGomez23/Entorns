@@ -11,27 +11,22 @@ public class Alimentacio extends Producte{
         this.dataCaducitat = dataCaducitat;
     }
 
-    public void setPreu() {
+    public float setPreu(float preu) {
 
         Date dataActual = new Date(System.currentTimeMillis());
-        preu = (float) (preu-preu*(1/(dataCaducitat.getTime()-dataActual.getTime()+1)) + (preu * 0.1));
+        preu = (float) (preu-preu*(1/(dataCaducitat.getTime()-dataActual.getTime()+1)) - (preu * 0.1));
 
-        System.out.println(preu);
+        return preu;
     }
 
     @Override
     public String toString() {
-        return "Alimentacio [nom=" + nom + ", preu=" + preu  + ", codiBarres=" + codiBarres + ", dataCaducitat="
+        return "Alimentacio [nom=" + nom + ", preu=" + getPreu()  + ", codiBarres=" + codiBarres + ", dataCaducitat="
                 + dataCaducitat + "]";
     }
 
     @Override
     public float getPreu() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPreu'");
+        return setPreu(preu);
     }
-
-    
-
-
 }

@@ -1,13 +1,17 @@
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class Main {
 
     static Scanner scan = new Scanner(System.in);
     static ArrayList<Producte> productes = new ArrayList<Producte>(100);
+    static HashMap<String,String> carret = new HashMap<>(100);
         public static void main(String[] args) {
 
             menuPrincipal();
@@ -81,11 +85,11 @@ public class Main {
         static void afegirAlimentacio() {
 
             try {
-                String tipus = "Alimentacio";
                 String nom = "Guayaba";
                 float preu = 0;
                 String codiBarres = "0";
-                //Date dataCaducitat = "0";
+                String dataTemp;
+                Date dataCaducitat;
                 System.out.println("Afegir alimentacio");
                 System.out.print("Nom: ");
                 nom = scan.nextLine();
@@ -99,9 +103,13 @@ public class Main {
 
                 System.out.print("Data de caducitat: ");
                 System.out.println();
-                //dataCaducitat = scan.nextLine();
+                dataTemp = scan.nextLine();
+
+                SimpleDateFormat formatData = new SimpleDateFormat("dd/MM/yyyy");
+                dataCaducitat = formatData.parse(dataTemp);
                 
-                productes.add(new Alimentacio(preu, nom, codiBarres, null));
+                productes.add(new Alimentacio(preu, nom, codiBarres, dataCaducitat));
+                carret.put(codiBarres, nom);
                 menuSecundari();
             } catch (InputMismatchException e){
                 System.out.println("Hi ha hagut un problema al afegir el aliment (Dades introduides malament)");
@@ -117,7 +125,6 @@ public class Main {
         static void afegirTextil() {
 
             try {
-                String tipus = "Textil";
                 String nom;
                 float preu;
                 String composicio;
@@ -137,6 +144,7 @@ public class Main {
                 codiBarres = scan.nextLine();
 
                 productes.add(new Textil(preu, nom, codiBarres, composicio));
+                carret.put(codiBarres, nom);
                 menuSecundari();
             } catch (InputMismatchException e){
                 System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
@@ -151,7 +159,6 @@ public class Main {
 
         static void afegirElectronica() {
             try {
-                String tipus = "Electronica";
                 String nom;
                 float preu;
                 int garantia;
@@ -172,6 +179,8 @@ public class Main {
                 codiBarres = scan.nextLine();
 
                 productes.add(new Electronica(preu, nom, codiBarres, garantia));
+                carret.put(codiBarres, nom);
+
                 menuSecundari();
             } catch (InputMismatchException e){
                 System.out.println("Hi ha hagut un problema al afegir el producte (Dades introduides malament)");
@@ -186,9 +195,35 @@ public class Main {
 
         public static void mostrarCarro() {
             System.out.println(productes.toString());
+            System.out.println(carret.toString());
+        
+
+            
+
+            carret.forEach((key, value) -> System.out.println("Nom: " + value + " --> "));
+            comptarQuantitat();
+            
+            
+
         }
 
         public static void comprovarClasse() {
             
         }
-}
+
+        public static void comptarQuantitat() {
+            
+            HashMap<String, Integer> barcodeCount = new HashMap<>();
+
+        for (String key : carret.keySet()) {
+            String nom = carret.get(key);
+            barcodeCount.put(nom, barcodeCount.getOrDefault(nom, 0) + 1);
+        }
+
+        // Imprimir la cantidad de cada código de barras
+        System.out.println("Conteo por código de barras:");
+        for (String nom : barcodeCount.keySet()) {
+            System.out.println(nom + " --> " + barcodeCount.get(nom));
+        }
+    }
+} 
