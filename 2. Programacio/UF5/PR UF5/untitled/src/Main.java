@@ -1,16 +1,17 @@
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class Main {
 
     static Scanner scan = new Scanner(System.in);
     static ArrayList<Producte> productes = new ArrayList<Producte>(100);
+    static ArrayList<String> barresProductes = new ArrayList<>(100);
     static HashMap<String,String> carret = new HashMap<>(100);
         public static void main(String[] args) {
 
@@ -20,7 +21,7 @@ public class Main {
             
 
         static void menuPrincipal() {
-            int opcio = 0;
+            String opcio;
             System.out.println("-------------");
             System.out.println("--BENVINGUT--");
             System.out.println("-------------");
@@ -29,26 +30,30 @@ public class Main {
             System.out.println("2. Passar per caixa");
             System.out.println("3. Mostrar carro");
             System.out.println("0. Acabar");
-            opcio = scan.nextInt();
+            opcio = scan.nextLine();
             switch (opcio) {
-                case 1:
+                case "1":
                     menuSecundari();
                     break;
-                case 2:
-                    //Cridar a passar per caixa
+                case "2":
+                    passarCaixa();
                     break;
-                case 3:
+                case "3":
                     mostrarCarro();
                     break;
+                case "0":
+                    System.exit(0);
+                    break;
                 default:
-                    //Sortir del programa
+                    System.out.println("Has introduit un caràcter no vàlid. Torna a escollir una opció.");
+                    menuPrincipal();
                     break;
             }
-
         }
+       
         
         static void menuSecundari() {
-                    int op2 = 0;
+                    String op2;
                     System.out.println("------------");
                     System.out.println("--PRODUCTE--");
                     System.out.println("------------");
@@ -57,21 +62,24 @@ public class Main {
                     System.out.println("2. Tèxtil");
                     System.out.println("3. Electrònica");
                     System.out.println("0. Tornar ");
-                    op2 = scan.nextInt();
-                    scan.nextLine();
+                    op2 = scan.nextLine();
 
                     switch (op2) {
-                        case 1:
+                        case "1":
                             afegirAlimentacio();
                             break;
-                        case 2:
+                        case "2":
                             afegirTextil();
                             break;
-                        case 3:
+                        case "3":
                             afegirElectronica();
                             break;
-                        default:
+                        case "0":
                             menuPrincipal();
+                            break;
+                        default:
+                            System.out.println("Has introduit un caràcter no vàlid. Torna a esollir una opció.");
+                            menuSecundari();
                             break;
                     }
 
@@ -109,6 +117,7 @@ public class Main {
                 dataCaducitat = formatData.parse(dataTemp);
                 
                 productes.add(new Alimentacio(preu, nom, codiBarres, dataCaducitat));
+                barresProductes.add(codiBarres);
                 carret.put(codiBarres, nom);
                 menuSecundari();
             } catch (InputMismatchException e){
@@ -144,6 +153,7 @@ public class Main {
                 codiBarres = scan.nextLine();
 
                 productes.add(new Textil(preu, nom, codiBarres, composicio));
+                barresProductes.add(codiBarres);
                 carret.put(codiBarres, nom);
                 menuSecundari();
             } catch (InputMismatchException e){
@@ -179,6 +189,7 @@ public class Main {
                 codiBarres = scan.nextLine();
 
                 productes.add(new Electronica(preu, nom, codiBarres, garantia));
+                barresProductes.add(codiBarres);
                 carret.put(codiBarres, nom);
 
                 menuSecundari();
@@ -194,7 +205,10 @@ public class Main {
         }
 
         public static void mostrarCarro() {
+
+            
             System.out.println(productes.toString());
+            System.out.println(barresProductes.toString());
             System.out.println(carret.toString());
         
 
@@ -207,8 +221,18 @@ public class Main {
 
         }
 
-        public static void comprovarClasse() {
+        public static void passarCaixa() {
+            Date dataActual = new Date(System.currentTimeMillis());
+            System.out.println("--------------");
+            System.out.println("--SAPAMERCAT--");
+            System.out.println(dataActual);
+            System.out.println("--------------");
+            System.out.println("---DETALLS---");
             
+
+            carret.clear();
+            productes.clear();
+            menuPrincipal();
         }
 
         public static void comptarQuantitat() {
