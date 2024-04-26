@@ -1,4 +1,8 @@
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,14 +17,15 @@ public class Main {
     static ArrayList<Producte> productes = new ArrayList<Producte>(100);
     static ArrayList<String> barresProductes = new ArrayList<>(100);
     static HashMap<String,String> carret = new HashMap<>(100);
-        public static void main(String[] args) {
-
+        public static void main(String[] args) throws IOException {
+            File logs = new File(".\\logs");
+            logs.createNewFile();
             menuPrincipal();
         }
         
             
 
-        static void menuPrincipal() {
+        static void menuPrincipal() throws IOException {
             String opcio;
             System.out.println("-------------");
             System.out.println("--BENVINGUT--");
@@ -52,7 +57,7 @@ public class Main {
         }
        
         
-        static void menuSecundari() {
+        static void menuSecundari() throws IOException {
                     String op2;
                     System.out.println("------------");
                     System.out.println("--PRODUCTE--");
@@ -90,7 +95,7 @@ public class Main {
 
         
 
-        static void afegirAlimentacio() {
+        static void afegirAlimentacio() throws IOException {
 
             try {
                 String nom = "Guayaba";
@@ -101,6 +106,13 @@ public class Main {
                 System.out.println("Afegir alimentacio");
                 System.out.print("Nom: ");
                 nom = scan.nextLine();
+                if (nom.length() > 15) {
+                    System.out.println("Nom massa llarg, torna a introduir-lo: ");
+                    nom = scan.nextLine();
+                    if (nom.length() > 15) {
+                        throw new Exception("El nom torna a ser massa llarg.");
+                    }
+                }
 
                 System.out.print("Preu: ");
                 preu = scan.nextInt();
@@ -121,11 +133,22 @@ public class Main {
                 carret.put(codiBarres, nom);
                 menuSecundari();
             } catch (InputMismatchException e){
+                File UpdateTextilPrices = new File(".\\UpdateTextilPrices.dat");
+                FileWriter fileReader = new FileWriter(UpdateTextilPrices);
+                BufferedWriter escriptor = new BufferedWriter(fileReader);
+                escriptor.write("S'ha produit un error en la classe aliments");
+
                 System.out.println("Hi ha hagut un problema al afegir el aliment (Dades introduides malament)");
                 System.out.println("Torna a introduir el producte");
+
                 afegirAlimentacio();
             } catch (Exception e) {
-                System.out.println("Hi ha hagut un problema al afegir l'aliment"+e.getCause());
+                File UpdateTextilPrices = new File(".\\UpdateTextilPrices");
+                FileWriter fileReader = new FileWriter(UpdateTextilPrices);
+                BufferedWriter escriptor = new BufferedWriter(fileReader);
+                escriptor.write("S'ha produit un error en la classe aliments");
+                System.out.println(e.getMessage());
+                System.out.println("Hi ha hagut un problema al afegir l'aliment");
                 System.out.println("Torna a introduir el producte");
                 afegirAlimentacio();
             }
@@ -141,6 +164,13 @@ public class Main {
                 System.out.println("Afegir textil");
                 System.out.print("Nom: ");
                 nom = scan.nextLine();
+                if (nom.length() > 15) {
+                    System.out.println("Nom massa llarg, torna a introduir-lo: ");
+                    nom = scan.nextLine();
+                    if (nom.length() > 15) {
+                        throw new Exception("El nom torna a ser massa llarg.");
+                    }
+                }
 
                 System.out.print("Preu: ");
                 preu = scan.nextInt();
@@ -161,7 +191,8 @@ public class Main {
                 System.out.println("Torna a introduir el producte");
                 afegirTextil();
             } catch (Exception e) {
-                System.out.println("Hi ha hagut un problema al afegir el producte"+e.getCause());
+                System.out.println(e.getMessage());
+                System.out.println("Hi ha hagut un problema al afegir el producte");
                 System.out.println("Torna a introduir el producte");
                 afegirTextil();
             }
@@ -176,6 +207,13 @@ public class Main {
                 System.out.println("Afegir electrònica");
                 System.out.print("Nom: ");
                 nom = scan.nextLine();
+                if (nom.length() > 15) {
+                    System.out.println("Nom massa llarg, torna a introduir-lo: ");
+                    nom = scan.nextLine();
+                    if (nom.length() > 15) {
+                        throw new Exception("El nom torna a ser massa llarg.");
+                    }
+                }
 
                 System.out.print("Preu: ");
                 preu = scan.nextInt();
@@ -198,7 +236,8 @@ public class Main {
                 System.out.println("Torna a introduir el producte");
                 afegirElectronica();
             } catch (Exception e) {
-                System.out.println("Hi ha hagut un problema al afegir el producte"+e.getCause());
+                System.out.println(e.getMessage());
+                System.out.println("Hi ha hagut un problema al afegir el producte");
                 System.out.println("Torna a introduir el producte");
                 afegirElectronica();
             }
@@ -267,15 +306,30 @@ public class Main {
         }
 
         public static void comptarQuantitat() {
-
-            HashMap<String, Integer> contador = new HashMap<>();
-
             
-            
-    
-            // Imprimir las ocurrencias
-            for (String elemento : contador.keySet()) {
-                System.out.println("Elemento: " + elemento + ", Ocurrencias: " + contador.get(elemento));
+
+            HashMap<String, Integer>Pquantitat = new HashMap<>();
+
+            String codigos[] = new String[100];
+            for (int i = 0; i < productes.size(); ++i ) {
+                codigos[i] = (productes.get(i).toString().split(",")[0]);
             }
+            
+            
+            int comptador = 0;
+            for (int i = 0; i < productes.size(); ++i ) {
+                String codiBarres = productes.get(i).toString().split(",")[2];
+                
+
+                if (codigos[i] == codiBarres) {
+                    ++comptador;
+                }
+                
+
+                System.out.println(comptador + codiBarres);
+                
+            }
+
+            
         }
-    }
+}

@@ -9,8 +9,8 @@ public class Textil extends Producte{
 
     @Override
     public String toString() {
-        return "Nom: " + nom + ", Preu: " + preu + ", composicio=" + composicio + ", codiBarres=" + codiBarres
-                +  "]";
+        return "Nom: " + nom + ", Preu: " + preu +  ", codiBarres=" + codiBarres
+                + ", composicio=" + composicio + "]";
     }
 
     @Override
