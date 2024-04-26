@@ -229,19 +229,32 @@ public class Main {
             System.out.println("--------------");
             System.out.println("---DETALLS---");
             
-
             carret.clear();
             productes.clear();
             menuPrincipal();
         }
 
         public static void comptarQuantitat() {
-            
-            HashMap<String, Integer> barcodeCount = new HashMap<>();
 
-        for (String key : carret.keySet()) {
-            String nom = carret.get(key);
-            barcodeCount.put(nom, barcodeCount.getOrDefault(nom, 0) + 1);
+            HashMap<String, Integer> contador = new HashMap<>();
+
+            
+            for (String Producte : productes) {
+                // Verificar si el elemento ya está presente en el HashMap
+                if (contador.containsKey(productes)) {
+                    // Si el elemento ya está presente, incrementar su contador
+                    contador.put(Producte, contador.get(Producte) + 1);
+                } else {
+                    // Si el elemento no está presente, agregarlo con un contador inicial de 1
+                    contador.put(Producte, 1);
+                }
+            }
+    
+            // Imprimir las ocurrencias
+            for (String elemento : contador.keySet()) {
+                System.out.println("Elemento: " + elemento + ", Ocurrencias: " + contador.get(elemento));
+            }
+        }
         }
 
         // Imprimir la cantidad de cada código de barras
