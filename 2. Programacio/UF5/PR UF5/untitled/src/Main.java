@@ -222,16 +222,48 @@ public class Main {
         }
 
         public static void passarCaixa() {
-            Date dataActual = new Date(System.currentTimeMillis());
-            System.out.println("--------------");
-            System.out.println("--SAPAMERCAT--");
-            System.out.println(dataActual);
-            System.out.println("--------------");
-            System.out.println("---DETALLS---");
-            
-            carret.clear();
-            productes.clear();
-            menuPrincipal();
+
+            try {
+                if (carret.isEmpty()) {
+                    System.out.println("No hi ha cap producte a la llista.");
+
+                } else {
+                    Date dataActual = new Date(System.currentTimeMillis());
+                    System.out.println("--------------");
+                    System.out.println("--SAPAMERCAT--");
+                    System.out.println(dataActual);
+                    System.out.println("--------------");
+                    System.out.println("---DETALLS---");
+                    System.out.println("--------------");
+
+                    float preuTotal = 0;
+                    String dataTemp;
+                    
+                    for (int i = 0; i < productes.size(); i++) {
+
+                        float preuTemp;
+                        String nomP = productes.get(i).toString().split(",")[0];
+                        String preu = productes.get(i).toString().split(",")[1];
+
+                        System.out.printf("%-" + 15 + "s%" + 10 + "s\n", nomP, preu);
+
+                        preuTemp = Float.parseFloat(preu.substring(6).trim());
+
+                        preuTotal = preuTemp + preuTotal;
+
+                    }
+
+                    System.out.println("TOTAL: " + preuTotal);
+
+
+                    carret.clear();
+                    productes.clear();
+                    menuPrincipal();
+                }
+
+            } catch (Exception e) {
+
+            }
         }
 
         public static void comptarQuantitat() {
@@ -239,28 +271,11 @@ public class Main {
             HashMap<String, Integer> contador = new HashMap<>();
 
             
-            for (String Producte : productes) {
-                // Verificar si el elemento ya está presente en el HashMap
-                if (contador.containsKey(productes)) {
-                    // Si el elemento ya está presente, incrementar su contador
-                    contador.put(Producte, contador.get(Producte) + 1);
-                } else {
-                    // Si el elemento no está presente, agregarlo con un contador inicial de 1
-                    contador.put(Producte, 1);
-                }
-            }
+            
     
             // Imprimir las ocurrencias
             for (String elemento : contador.keySet()) {
                 System.out.println("Elemento: " + elemento + ", Ocurrencias: " + contador.get(elemento));
             }
         }
-        }
-
-        // Imprimir la cantidad de cada código de barras
-        System.out.println("Conteo por código de barras:");
-        for (String nom : barcodeCount.keySet()) {
-            System.out.println(nom + " --> " + barcodeCount.get(nom));
-        }
     }
-} 

@@ -21,7 +21,7 @@ public class Alimentacio extends Producte{
 
     @Override
     public String toString() {
-        return "Alimentacio [nom=" + nom + ", preu=" + getPreu()  + ", codiBarres=" + codiBarres + ", dataCaducitat="
+        return "Nom: " + nom + ", Preu: " + getPreu()  + ", codiBarres=" + codiBarres + ", dataCaducitat="
                 + dataCaducitat + "]";
     }
 
