@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -58,35 +59,35 @@ public class Main {
        
         
         static void menuSecundari() throws IOException {
-                    String op2;
-                    System.out.println("------------");
-                    System.out.println("--PRODUCTE--");
-                    System.out.println("------------");
-                    System.out.println("Quin tipus de producte vols?");
-                    System.out.println("1. Alimentacio");
-                    System.out.println("2. Tèxtil");
-                    System.out.println("3. Electrònica");
-                    System.out.println("0. Tornar ");
-                    op2 = scan.nextLine();
+            String op2;
+            System.out.println("------------");
+            System.out.println("--PRODUCTE--");
+            System.out.println("------------");
+            System.out.println("Quin tipus de producte vols?");
+            System.out.println("1. Alimentacio");
+            System.out.println("2. Tèxtil");
+            System.out.println("3. Electrònica");
+            System.out.println("0. Tornar ");
+            op2 = scan.nextLine();
 
-                    switch (op2) {
-                        case "1":
-                            afegirAlimentacio();
-                            break;
-                        case "2":
-                            afegirTextil();
-                            break;
-                        case "3":
-                            afegirElectronica();
-                            break;
-                        case "0":
-                            menuPrincipal();
-                            break;
-                        default:
-                            System.out.println("Has introduit un caràcter no vàlid. Torna a esollir una opció.");
-                            menuSecundari();
-                            break;
-                    }
+            switch (op2) {
+                case "1":
+                    afegirAlimentacio();
+                    break;
+                case "2":
+                    afegirTextil();
+                    break;
+                case "3":
+                    afegirElectronica();
+                    break;
+                case "0":
+                    menuPrincipal();
+                    break;
+                default:
+                    System.out.println("Has introduit un caràcter no vàlid. Torna a esollir una opció.");
+                    menuSecundari();
+                    break;
+            }
 
         
 
@@ -240,21 +241,70 @@ public class Main {
         }
 
         public static void mostrarCarro() {
+            
+            LinkedHashMap<Integer, String> codis = new LinkedHashMap<>();
+            for (int i = 0; i < productes.size(); ++i) {
+
+                int codiProd;
+
+                String nom = productes.get(i).toString().split(",")[0];
+                String codi = productes.get(i).toString().split(",")[3];
+                codiProd = Integer.parseInt(codi.substring(13).trim());
+
+                //Si el producte no ha estat registrat encara (Quantitat = 0) l'afegim i posem quantitat 1
+                if (!codis.containsKey(codiProd)) {
+                    
+                    codis.put(codiProd, nom + "*1");
+                    System.out.println();
+
+                } else {
+
+                    //Si troba el codi, incrementa la quantitat en 1
+                    codis.replace(codiProd, nom + "," + (Integer.parseInt(codis.get(codiProd).split(",")[1]) + 1));
+                }
 
             
-            System.out.println(productes.toString());
-            System.out.println(barresProductes.toString());
-            System.out.println(carret.toString());
-        
+            }
 
-            
+            codis.forEach((k, v) -> {
+                String[] parts = v.split(","); // Dividir la cadena en función del asterisco
+                System.out.printf("%s %s %s \n", parts[0].substring(4).trim(), "-->", parts[1]);
+            });
 
-            carret.forEach((key, value) -> System.out.println("Nom: " + value + " --> "));
-            comptarQuantitat();
-            
-            
-
+            // utilitzem v.split en dos casos per treure el nom i separar la quantitat
+            codis.forEach((k, v) -> System.out.printf("%s %s %s \n", v.split(",")[0].substring(4).trim(), "-->", v.split(",")[1]));
+                
         }
+
+        /*public static void mostrarCarro() {
+            
+            LinkedHashMap<Integer, String> codis = new LinkedHashMap<>();
+            for (int i = 0; i < productes.size(); ++i) {
+                int codiProd;
+        
+                String nom = productes.get(i).toString().split(",")[0];
+                String codi = productes.get(i).toString().split(",")[3];
+                codiProd = Integer.parseInt(codi.substring(13).trim());
+        
+                if (!codis.containsKey(codiProd)) {
+                    codis.put(codiProd, nom + ",1"); // Aquí ponemos '1' directamente como la cantidad inicial
+                } else {
+                    int quantitat = Integer.parseInt(codis.get(codiProd).split(",")[1]) + 1;
+                    codis.replace(codiProd, nom + "," + quantitat);
+                }
+            }
+        
+            // Mostrar el contenido del carrito
+            codis.forEach((k, v) -> {
+                String[] parts = v.split(",");
+                System.out.printf("%s %s %s \n", parts[0].trim(), "-->", parts[1].trim());
+            });
+        }*/
+
+        
+        
+            
+        
 
         public static void passarCaixa() {
 
@@ -306,33 +356,5 @@ public class Main {
             FileWriter fileReader = new FileWriter(UpdateTextilPrices);
             BufferedWriter escriptor = new BufferedWriter(fileReader);
             escriptor.write("S'ha produit un error.");
-        }
-
-        public static void comptarQuantitat() {
-            
-
-            HashMap<String, Integer>Pquantitat = new HashMap<>();
-
-            String codigos[] = new String[100];
-            for (int i = 0; i < productes.size(); ++i ) {
-                codigos[i] = (productes.get(i).toString().split(",")[0]);
-            }
-            
-            
-            int comptador = 0;
-            for (int i = 0; i < productes.size(); ++i ) {
-                String codiBarres = productes.get(i).toString().split(",")[2];
-                
-
-                if (codigos[i] == codiBarres) {
-                    ++comptador;
-                }
-                
-
-                System.out.println(comptador + codiBarres);
-                
-            }
-
-            
         }
 }
