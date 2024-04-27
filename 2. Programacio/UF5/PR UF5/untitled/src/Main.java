@@ -133,11 +133,7 @@ public class Main {
                 carret.put(codiBarres, nom);
                 menuSecundari();
             } catch (InputMismatchException e){
-                File UpdateTextilPrices = new File(".\\UpdateTextilPrices.dat");
-                FileWriter fileReader = new FileWriter(UpdateTextilPrices);
-                BufferedWriter escriptor = new BufferedWriter(fileReader);
-                escriptor.write("S'ha produit un error en la classe aliments");
-
+                recollirExceptions();
                 System.out.println("Hi ha hagut un problema al afegir el aliment (Dades introduides malament)");
                 System.out.println("Torna a introduir el producte");
 
@@ -303,6 +299,13 @@ public class Main {
             } catch (Exception e) {
 
             }
+        }
+
+        public static void recollirExceptions() throws IOException {
+            File UpdateTextilPrices = new File(".\\logs\\Exceptions.dat");
+            FileWriter fileReader = new FileWriter(UpdateTextilPrices);
+            BufferedWriter escriptor = new BufferedWriter(fileReader);
+            escriptor.write("S'ha produit un error.");
         }
 
         public static void comptarQuantitat() {
