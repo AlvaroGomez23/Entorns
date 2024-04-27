@@ -250,4 +250,15 @@ public class Main {
     public static void recollirExcepcions() {
         System.out.println("Hi ha hagut un problema al introduir les dades. Torna a intentar-ho.");
     }
+
+
+    public static void crearFitxers() {
+
+        File UpdateTextilPrices = new File(".\\updates\\UpdateTextilPrices");
+        File Exceptions = new File(".\\logs\\Exceptions.dat");
+        
+        
+
+
+    }
 }
