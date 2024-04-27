@@ -218,7 +218,7 @@ public class Main {
             System.out.println("No hi ha cap producte a la llista.");
         } else {
             Date dataActual = new Date(System.currentTimeMillis());
-            float[] preuTotal = {0}; // Utilizamos un array para almacenar el precio total
+            float[] preuTotal = {0}; 
 
             System.out.println("--------------");
             System.out.println("--SAPAMERCAT--");
@@ -227,12 +227,12 @@ public class Main {
             System.out.println("---DETALLS---");
             System.out.println("--------------");
 
-            // Utilizar una expresión lambda para calcular el precio total y mostrar los detalles
+            
             productes.forEach(producte -> {
                 String nom = producte.getNom();
                 float preu = producte.getPreu();
                 System.out.printf("%-" + 15 + "s%" + 10 + "s\n", nom, preu);
-                preuTotal[0] += preu; // Sumamos el precio de cada producto al precio total
+                preuTotal[0] += preu;
             });
 
             System.out.println("TOTAL: " + preuTotal[0]);
