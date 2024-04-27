@@ -257,8 +257,5 @@ public class Main {
         File UpdateTextilPrices = new File(".\\updates\\UpdateTextilPrices");
         File Exceptions = new File(".\\logs\\Exceptions.dat");
         
-        
-
-
     }
 }
