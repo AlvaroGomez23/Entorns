@@ -15,8 +15,12 @@ public class Textil extends Producte{
 
     @Override
     public float getPreu() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPreu'");
+        return preu;
+    }
+
+    @Override
+    protected String getNom() {
+        return nom;
     }
 
     

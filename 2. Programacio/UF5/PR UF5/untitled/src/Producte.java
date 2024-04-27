@@ -17,11 +17,15 @@ public abstract class Producte implements Comparable {
 
     public abstract float getPreu();
 
+    protected abstract String getNom();
+
     @Override
     public int compareTo(Object o) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
     }
+
+    
 
     
 }

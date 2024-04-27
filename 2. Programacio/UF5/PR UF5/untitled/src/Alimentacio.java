@@ -29,4 +29,9 @@ public class Alimentacio extends Producte{
     public float getPreu() {
         return setPreu(preu);
     }
+
+    @Override
+    protected String getNom() {
+        return nom;
+    }
 }

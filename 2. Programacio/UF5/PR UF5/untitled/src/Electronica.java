@@ -25,5 +25,10 @@ public class Electronica extends Producte{
                     ", diesGarantia=" + diesGarantia + "]";
     }
 
+    @Override
+    protected String getNom() {
+        return nom;
+    }
+
     
 }
