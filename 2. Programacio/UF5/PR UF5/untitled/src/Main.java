@@ -406,6 +406,7 @@ public class Main {
         Collections.sort(productes);
     }
 
+    //Comprova els codis del textil
     public static void comprobarCodiBarres(Producte p) throws IOException {
 
         try {
@@ -425,11 +426,34 @@ public class Main {
 
             }
 
-            for (int i = 0; i < linia.length(); ++i) {
+            if (p instanceof Textil) {
+                for (Map.Entry<String, String> valorsDocument: updateTextil.entrySet()) { //Recorreix updateTextil i assigna keys i values (Codi de barres i preu)
+                    String key = valorsDocument.getKey();
+                    String valor = valorsDocument.getValue();
 
+                    if (key.equals(p.getCodiBarres())) {
+                        if ((p.getPreu() + "").equals(valor)) { //Comprova que el preu i el codi de barres siguin iguals
+                            for (Producte p2: productes) { //Recorre el arraylist i quan trobi el codi de barres i li posa el preu introduit 
+                                if (p2.codiBarres.equals(key)) { 
+                                    p2.preu = p.getPreu();
+                                }
+                            }
+                        } else {
+                            for (Producte p3: productes) { //Recorre el arraylist i quan trobi el codi de barres li assignara el preu del document
+                                if (p3.codiBarres.equals(key)) { 
+                                    p3.preu = Float.parseFloat(valor);
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.out.println("Hi ha hagut un error de IN OUT");
+            recollirExcepcions();
+        }catch (Exception e) {
+            System.out.println("Hi ha hagut un error");
             recollirExcepcions();
         }
     }
