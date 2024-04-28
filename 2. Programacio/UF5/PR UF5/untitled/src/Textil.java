@@ -23,5 +23,14 @@ public class Textil extends Producte{
         return nom;
     }
 
+    protected String getComposicio() {
+        return composicio;
+    }
+
+    @Override
+    public int compareTo(Producte o) {
+        return composicio.length()-((Textil)o).getComposicio().length();
+    }
+
     
 }

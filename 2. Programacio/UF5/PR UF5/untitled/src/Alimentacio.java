@@ -34,4 +34,5 @@ public class Alimentacio extends Producte{
     protected String getNom() {
         return nom;
     }
+
 }

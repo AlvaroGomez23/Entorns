@@ -1,4 +1,4 @@
-public abstract class Producte implements Comparable {
+public abstract class Producte implements Comparable<Producte> {
 
     float preu;
     String nom;
@@ -19,11 +19,16 @@ public abstract class Producte implements Comparable {
 
     protected abstract String getNom();
 
-    @Override
-    public int compareTo(Object o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
+    public String getCodiBarres() {
+        return codiBarres;
     }
+
+    @Override
+    public int compareTo(Producte o) {
+        return Integer.parseInt(codiBarres)-Integer.parseInt(o.getCodiBarres());
+    }
+
+    ;
 
 
     

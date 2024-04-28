@@ -1,10 +1,13 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -21,6 +24,8 @@ public class Main {
     static ArrayList<String> codiBarresP = new ArrayList<>(100); //Guarda els codis de barres dels productes
     static HashMap<String, String> carret = new HashMap<>(100); //Guarda el nom i el codi de barres dels productes
     static LinkedHashMap<String, Integer> codis = new LinkedHashMap<>(); //Guarda el nom dels productes i la seva quantitat
+    static ArrayList<Textil> textils = new ArrayList<>(100);//ArrayList només per els tèxtils
+    static HashMap<String, String> updateTextil = new HashMap<>(100);
 
     //Classe main, executa el programa
     public static void main(String[] args) throws IOException {
@@ -176,8 +181,10 @@ public class Main {
             System.out.print("Codi de barres: ");
             codiBarres = scan.nextLine();
 
+    
             //Afegeix el producte a les llistes
             productes.add(new Textil(preu, nom, codiBarres, composicio));
+            textils.add(new Textil(preu, nom, codiBarres, composicio));
             codiBarresP.add(codiBarres);
             carret.put(codiBarres, nom);
             menuSecundari();
@@ -270,6 +277,11 @@ public class Main {
                 //Agafa la data del tiquet
                 Date dataActual = new Date(System.currentTimeMillis());
                 float[] preuTotal = { 0 };
+
+                for (Producte p: productes) {
+                    comprobarCodiBarres(p);
+                }
+                
 
                 System.out.println("--------------");
                 System.out.println("--SAPAMERCAT--");
@@ -371,7 +383,7 @@ public class Main {
     }
 
     //Busca els productes mitjançant streams i el codi de barres
-    public static void buscarProductes() {
+    public static void buscarProductes() throws IOException {
 
 
         System.out.println("Introdueix el codi de barres: ");
@@ -382,10 +394,43 @@ public class Main {
             .map(Map.Entry::getValue) //Obté el valor
             .toList(); //Guarda el valor a la llista
 
+            menuPrincipal();
         if (buscadorProductes.isEmpty()) {
             System.out.println("Aquest codi de barres no existeix");
         } else {
             System.out.println("Producte amb el codi de barres " + codiDeBarres + ": " + buscadorProductes.get(0));
+        }
+    }
+
+    public static void ordenarTextils() {
+        Collections.sort(productes);
+    }
+
+    public static void comprobarCodiBarres(Producte p) throws IOException {
+
+        try {
+
+            String ruta = "./updates/UpdateTextilPrices.dat";
+            File prices = new File(ruta);
+
+            FileReader fr = new FileReader(prices);
+            BufferedReader br = new BufferedReader(fr);
+
+            String linia;
+
+            while ((linia = br.readLine()) != null) {
+
+                String[] valors = linia.split(";");
+                updateTextil.put(valors[0], valors[1]);
+
+            }
+
+            for (int i = 0; i < linia.length(); ++i) {
+
+            }
+
+        } catch (Exception e) {
+            recollirExcepcions();
         }
     }
 }
