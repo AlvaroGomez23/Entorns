@@ -241,7 +241,7 @@ public class Main {
 
             try {
 
-                //Fa un recorregut i va comptant quants productes hi ha amb el mateix codi de barres
+                //Fa un recorregut i va comptant quants productes hi ha amb el mateix codi de barres, si no té cap registre, agafa 0
                 for (String codi : codiBarresP) {
                     codis.put(codi, codis.getOrDefault(codi, 0) + 1);
                 }
@@ -378,9 +378,9 @@ public class Main {
         String codiDeBarres = scan.nextLine().trim();
 
         List<String> buscadorProductes = carret.entrySet().stream() //Agafa els valors del carret
-                .filter(entry -> entry.getKey().equals(codiDeBarres)) //Compara keys
-                .map(Map.Entry::getValue) //Obté el valor
-                .toList(); //Guarda el valor a la llista
+            .filter(entry -> entry.getKey().equals(codiDeBarres)) //Compara keys
+            .map(Map.Entry::getValue) //Obté el valor
+            .toList(); //Guarda el valor a la llista
 
         if (buscadorProductes.isEmpty()) {
             System.out.println("Aquest codi de barres no existeix");
