@@ -15,17 +15,20 @@ import java.util.Scanner;
 
 public class Main {
 
+    //Creació dels ArrayLists i HashMaps necessaris
     static Scanner scan = new Scanner(System.in);
-    static ArrayList<Producte> productes = new ArrayList<>(100);
-    static ArrayList<String> codiBarresP = new ArrayList<>(100);
-    static HashMap<String, String> carret = new HashMap<>(100);
-    static LinkedHashMap<String, Integer> codis = new LinkedHashMap<>();
+    static ArrayList<Producte> productes = new ArrayList<>(100); //Guarda els productes
+    static ArrayList<String> codiBarresP = new ArrayList<>(100); //Guarda els codis de barres dels productes
+    static HashMap<String, String> carret = new HashMap<>(100); //Guarda el nom i el codi de barres dels productes
+    static LinkedHashMap<String, Integer> codis = new LinkedHashMap<>(); //Guarda el nom dels productes i la seva quantitat
 
+    //Classe main, executa el programa
     public static void main(String[] args) throws IOException {
         crearFitxers();
         menuPrincipal();
     }
 
+    //Menú principal per escollir opcions que portaran a diferents parts del programa
     static void menuPrincipal() throws IOException {
         String opcio;
         System.out.println("-------------");
@@ -35,19 +38,28 @@ public class Main {
         System.out.println("1. Demanar productes");
         System.out.println("2. Passar per caixa");
         System.out.println("3. Mostrar carro");
+        System.out.println("4. Buscar productes");
         System.out.println("0. Acabar");
         opcio = scan.nextLine();
         switch (opcio) {
             case "1":
+                //Porta a un menu per afegir productes
                 menuSecundari();
                 break;
             case "2":
+                //Executa la opció que imprimeix el tiquet
                 passarCaixa();
                 break;
             case "3":
+                //Mostra els productes que hi ha al carro
                 mostrarCarro();
                 break;
+            case "4":
+                //Busca mitjançant el codi de barres els productes a "carret"
+                buscarProductes();
+                break;
             case "0":
+                //Surt del programa
                 System.exit(0);
                 break;
             default:
@@ -57,6 +69,7 @@ public class Main {
         }
     }
 
+    //Menu secundari per afegir els diferents tipus de productes
     static void menuSecundari() throws IOException {
         String op2;
         System.out.println("------------");
@@ -71,15 +84,19 @@ public class Main {
 
         switch (op2) {
             case "1":
+                //Afegeix el producte "Alimentacio"
                 afegirAlimentacio();
                 break;
             case "2":
+                //Afegeix el producte "Textil"
                 afegirTextil();
                 break;
             case "3":
+                //Afegeix el producte "Electronica"
                 afegirElectronica();
                 break;
             case "0":
+                //Torna al menú principal
                 menuPrincipal();
                 break;
             default:
@@ -88,7 +105,7 @@ public class Main {
                 break;
         }
     }
-
+    //Afegix alimentació
     static void afegirAlimentacio() throws IOException {
         try {
             String nom;
@@ -112,23 +129,28 @@ public class Main {
             System.out.print("Data de caducitat (dd/MM/yyyy): ");
             String dataTemp = scan.nextLine();
 
+            //Agafa el String i el passa a date mitjançant un parse
             SimpleDateFormat formatData = new SimpleDateFormat("dd/MM/yyyy");
             dataCaducitat = formatData.parse(dataTemp);
 
+            //S'afegeix el producte a totes les llistes 
             productes.add(new Alimentacio(preu, nom, codiBarres, dataCaducitat));
             codiBarresP.add(codiBarres);
             carret.put(codiBarres, nom);
             menuSecundari();
         } catch (InputMismatchException | NumberFormatException e) {
+            System.out.println("Hi ha hagut un error al afegir l'aliment");
             recollirExcepcions();
             afegirAlimentacio();
         } catch (Exception e) {
+            System.out.println("Hi ha hagut un error al afegir l'aliment");
             System.out.println(e.getMessage());
             recollirExcepcions();
             afegirAlimentacio();
         }
     }
 
+    //Metode per afegir el textil
     static void afegirTextil() throws FileNotFoundException {
         try {
             String nom;
@@ -152,6 +174,7 @@ public class Main {
             System.out.print("Codi de barres: ");
             codiBarres = scan.nextLine();
 
+            //Afegeix el producte a les llistes
             productes.add(new Textil(preu, nom, codiBarres, composicio));
             codiBarresP.add(codiBarres);
             carret.put(codiBarres, nom);
@@ -167,6 +190,7 @@ public class Main {
         }
     }
 
+    //Metode per afegir el producte electronica
     static void afegirElectronica() throws FileNotFoundException {
         try {
             String nom;
@@ -191,6 +215,7 @@ public class Main {
             System.out.print("Codi de barres: ");
             codiBarres = scan.nextLine();
 
+            //Afegir el producte a la llista
             productes.add(new Electronica(preu, nom, codiBarres, garantia));
             codiBarresP.add(codiBarres);
             carret.put(codiBarres, nom);
@@ -211,24 +236,24 @@ public class Main {
             System.out.println("No hi ha cap article al carro.");
         } else {
 
-        try {
+            try {
 
-            for (String codi : codiBarresP) {
-                codis.put(codi, codis.getOrDefault(codi, 0) + 1);
+                for (String codi : codiBarresP) {
+                    codis.put(codi, codis.getOrDefault(codi, 0) + 1);
+                }
+
+                codis.forEach((codi, quantitat) -> {
+                    String nom = carret.get(codi);
+                    System.out.println(nom + " --> " + quantitat);
+                });
+                menuPrincipal();
+
+            } catch (Exception e) {
+                System.out.println("Hi ha hagut un error al mostrar el carro");
+                recollirExcepcions();
             }
-
-            codis.forEach((codi, quantitat) -> {
-                String nom = carret.get(codi);
-                System.out.println(nom + " --> " + quantitat);
-            });
-            menuPrincipal();
-        
-        } catch (Exception e) {
-            System.out.println("Hi ha hagut un error al mostrar el carro");
-            recollirExcepcions();
         }
     }
-}
 
     public static void passarCaixa() throws FileNotFoundException {
         try {
@@ -262,7 +287,8 @@ public class Main {
 
                     if (producte != null) {
                         float preu = producte.getPreu();
-                        System.out.printf("%-" + 15 + "s%" + 5 + "s%" + 5 + "s%" + 5 + "s\n", nom, quantitat, preu, quantitat * preu);
+                        System.out.printf("%-" + 15 + "s%" + 5 + "s%" + 5 + "s%" + 5 + "s\n", nom, quantitat, preu,
+                                quantitat * preu);
                     }
                 });
 
@@ -325,22 +351,20 @@ public class Main {
 
     }
 
-    public static void buscadorDeNoms() {
+    public static void buscarProductes() {
 
-        System.out.println("Introdueix el codi de barres per cercar el nom del producte!");
+        System.out.println("Introdueix el codi de barres: ");
         String codiDeBarres = scan.nextLine().trim();
 
-        // Buscar el producte per codi de barres utilitzant streams
-                List<String> producteTrobat = carret.entrySet().stream()
-                .filter(entry -> entry.getKey().equals(codiDeBarres)) // Comparar claus
-                .map(Map.Entry::getValue) // Obtenir valor
-                .toList(); // Guardar resultat a la llista
+        List<String> buscadorProductes = carret.entrySet().stream()
+                .filter(entry -> entry.getKey().equals(codiDeBarres)) //Compara keys
+                .map(Map.Entry::getValue) //Obté el valor
+                .toList(); //Guarda el valor a la llista
 
-
-        if (producteTrobat.isEmpty()) {
-            System.out.println("No s'ha trobat cap producte amb aquest codi de barres.");
+        if (buscadorProductes.isEmpty()) {
+            System.out.println("Aquest codi de barres no existeix");
         } else {
-            System.out.println("Producte trobat: " + producteTrobat.get(0));
+            System.out.println("Producte amb el codi de barres " + codiDeBarres + ": " + buscadorProductes.get(0));
         }
     }
 }
