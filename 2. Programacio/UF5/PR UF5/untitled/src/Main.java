@@ -19,7 +19,7 @@ public class Main {
     static Scanner scan = new Scanner(System.in);
     static ArrayList<Producte> productes = new ArrayList<>(100);
     static ArrayList<String> codiBarresP = new ArrayList<>(100);
-    static HashMap<String,String> carret = new HashMap<>(100);
+    static HashMap<String, String> carret = new HashMap<>(100);
     static LinkedHashMap<String, Integer> codis = new LinkedHashMap<>();
 
     public static void main(String[] args) throws IOException {
@@ -208,98 +208,101 @@ public class Main {
 
     public static void mostrarCarro() throws IOException {
 
+        if (carret.isEmpty()) {
+            System.out.println("No hi ha cap article al carro.");
+        } else {
+
         try {
-            
+
             for (String codi : codiBarresP) {
                 codis.put(codi, codis.getOrDefault(codi, 0) + 1);
             }
 
-            codis.forEach((codi , quantitat) -> {
+            codis.forEach((codi, quantitat) -> {
                 String nom = carret.get(codi);
                 System.out.println(nom + " --> " + quantitat);
             });
             menuPrincipal();
+        
         } catch (Exception e) {
             System.out.println("Hi ha hagut un error al mostrar el carro");
             recollirExcepcions();
         }
     }
+}
 
     public static void passarCaixa() throws FileNotFoundException {
-    try {
-        if (carret.isEmpty()) {
-            System.out.println("No hi ha cap producte a la llista.");
-        } else {
-            Date dataActual = new Date(System.currentTimeMillis());
-            float[] preuTotal = {0}; 
+        try {
+            if (carret.isEmpty()) {
+                System.out.println("No hi ha cap producte a la llista.");
+            } else {
+                Date dataActual = new Date(System.currentTimeMillis());
+                float[] preuTotal = { 0 };
 
-            System.out.println("--------------");
-            System.out.println("--SAPAMERCAT--");
-            System.out.println(dataActual);
-            System.out.println("--------------");
-            System.out.println("---DETALLS---");
-            System.out.println("--------------");
+                System.out.println("--------------");
+                System.out.println("--SAPAMERCAT--");
+                System.out.println(dataActual);
+                System.out.println("--------------");
+                System.out.println("---DETALLS---");
+                System.out.println("--------------");
 
-            for (String codi : codiBarresP) {
-                codis.put(codi, codis.getOrDefault(codi, 0) + 1);
-            }
-            
+                for (String codi : codiBarresP) {
+                    codis.put(codi, codis.getOrDefault(codi, 0) + 1);
+                }
 
-
-            codis.forEach((codi, quantitat) -> {
-                String nom = carret.get(codi);
-                Producte producte = null;
-                for (int i = 0; i < productes.size(); i++) {
-                    Producte p = productes.get(i);
-                    if (p.getNom().equals(nom)) {
-                        producte = p;
-                        break;
+                codis.forEach((codi, quantitat) -> {
+                    String nom = carret.get(codi);
+                    Producte producte = null;
+                    for (int i = 0; i < productes.size(); i++) {
+                        Producte p = productes.get(i);
+                        if (p.getNom().equals(nom)) {
+                            producte = p;
+                            break;
+                        }
                     }
-                }
-                
-                if (producte != null) {
+
+                    if (producte != null) {
+                        float preu = producte.getPreu();
+                        System.out.printf("%-" + 15 + "s%" + 5 + "s%" + 5 + "s%" + 5 + "s\n", nom, quantitat, preu, quantitat * preu);
+                    }
+                });
+
+                productes.forEach(producte -> {
                     float preu = producte.getPreu();
-                    System.out.printf("%-" + 15 + "s%" + 5 + "s%"+ 5 + "s\n", nom, quantitat, preu);
-                }
-            });
+                    preuTotal[0] += preu;
+                    return;
+                });
 
-            productes.forEach(producte -> {
-                float preu = producte.getPreu();
-                preuTotal[0] += preu;
-                return;    
-            });
+                System.out.println("TOTAL: " + preuTotal[0]);
 
-            System.out.println("TOTAL: " + preuTotal[0]);
-
-            carret.clear();
-            productes.clear();
-            codis.clear();
-            menuPrincipal();
+                carret.clear();
+                productes.clear();
+                codiBarresP.clear();
+                codis.clear();
+                menuPrincipal();
+            }
+        } catch (Exception e) {
+            System.out.println("Hi ha hagut un error al mostrar el carro.");
+            recollirExcepcions();
         }
-    } catch (Exception e) {
-        System.out.println("Hi ha hagut un error al mostrar el carro.");
-        recollirExcepcions();
     }
-}
 
     public static void recollirExcepcions() throws FileNotFoundException {
 
         File Exceptions = new File("./logs/Exceptions.dat");
         PrintStream escriptor = new PrintStream(Exceptions);
         try {
-           
+
             escriptor.println("S'ha produit un error al executar el programa");
-        
+
         } catch (Exception e) {
             System.out.println("S'ha produit un error recollint excepcions");
             recollirExcepcions();
         } finally {
             escriptor.close();
         }
-    
-    } 
 
-
+    }
 
     public static void crearFitxers() throws IOException {
 
@@ -313,14 +316,12 @@ public class Main {
             updates.mkdirs();
             UpdateTextilPrices.createNewFile();
             Exceptions.createNewFile();
-        
+
         } catch (FileNotFoundException e) {
             recollirExcepcions();
-        } catch (Exception e ) {
+        } catch (Exception e) {
             recollirExcepcions();
         }
-        
-        
-        
+
     }
 }
