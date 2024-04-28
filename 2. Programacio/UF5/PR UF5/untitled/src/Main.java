@@ -1,17 +1,16 @@
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -290,7 +289,8 @@ public class Main {
     public static void recollirExcepcions() throws FileNotFoundException {
 
         File Exceptions = new File("./logs/Exceptions.dat");
-        PrintStream escriptor = new PrintStream(Exceptions);
+        FileOutputStream errors = new FileOutputStream(Exceptions, true);
+        PrintStream escriptor = new PrintStream(errors);
         try {
 
             escriptor.println("S'ha produit un error al executar el programa");
@@ -323,5 +323,24 @@ public class Main {
             recollirExcepcions();
         }
 
+    }
+
+    public static void buscadorDeNoms() {
+
+        System.out.println("Introdueix el codi de barres per cercar el nom del producte!");
+        String codiDeBarres = scan.nextLine().trim();
+
+        // Buscar el producte per codi de barres utilitzant streams
+                List<String> producteTrobat = carret.entrySet().stream()
+                .filter(entry -> entry.getKey().equals(codiDeBarres)) // Comparar claus
+                .map(Map.Entry::getValue) // Obtenir valor
+                .toList(); // Guardar resultat a la llista
+
+
+        if (producteTrobat.isEmpty()) {
+            System.out.println("No s'ha trobat cap producte amb aquest codi de barres.");
+        } else {
+            System.out.println("Producte trobat: " + producteTrobat.get(0));
+        }
     }
 }
