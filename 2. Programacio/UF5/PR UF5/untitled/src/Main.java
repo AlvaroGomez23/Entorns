@@ -108,6 +108,7 @@ public class Main {
     //Afegix alimentació
     static void afegirAlimentacio() throws IOException {
         try {
+            //Definició de variables
             String nom;
             float preu;
             String codiBarres;
@@ -153,6 +154,7 @@ public class Main {
     //Metode per afegir el textil
     static void afegirTextil() throws FileNotFoundException {
         try {
+            //Definició de variables
             String nom;
             float preu;
             String composicio;
@@ -193,6 +195,7 @@ public class Main {
     //Metode per afegir el producte electronica
     static void afegirElectronica() throws FileNotFoundException {
         try {
+            //Definició de variables
             String nom;
             float preu;
             int garantia;
@@ -238,12 +241,14 @@ public class Main {
 
             try {
 
+                //Fa un recorregut i va comptant quants productes hi ha amb el mateix codi de barres
                 for (String codi : codiBarresP) {
                     codis.put(codi, codis.getOrDefault(codi, 0) + 1);
                 }
 
+                //Imprimeix el codi 
                 codis.forEach((codi, quantitat) -> {
-                    String nom = carret.get(codi);
+                    String nom = carret.get(codi); //Agafa el codi del hashmap "carret"
                     System.out.println(nom + " --> " + quantitat);
                 });
                 menuPrincipal();
@@ -257,9 +262,12 @@ public class Main {
 
     public static void passarCaixa() throws FileNotFoundException {
         try {
+            //Si no hi ha res al carro t'envia al menú principal
             if (carret.isEmpty()) {
                 System.out.println("No hi ha cap producte a la llista.");
+                menuPrincipal();
             } else {
+                //Agafa la data del tiquet
                 Date dataActual = new Date(System.currentTimeMillis());
                 float[] preuTotal = { 0 };
 
@@ -270,21 +278,24 @@ public class Main {
                 System.out.println("---DETALLS---");
                 System.out.println("--------------");
 
+                //Mateix metode per comptar que al mostrar carro
                 for (String codi : codiBarresP) {
                     codis.put(codi, codis.getOrDefault(codi, 0) + 1);
                 }
 
+                //Imprimeix el contingut que necessita el tiquet
                 codis.forEach((codi, quantitat) -> {
                     String nom = carret.get(codi);
                     Producte producte = null;
                     for (int i = 0; i < productes.size(); i++) {
-                        Producte p = productes.get(i);
+                        Producte p = productes.get(i); //Agafa la ruta de l'objecte de l'arraylist
                         if (p.getNom().equals(nom)) {
-                            producte = p;
+                            producte = p; 
                             break;
                         }
                     }
 
+                    //Si el producte no es null imprimeix el contingut del tiquet
                     if (producte != null) {
                         float preu = producte.getPreu();
                         System.out.printf("%-" + 15 + "s%" + 5 + "s%" + 5 + "s%" + 5 + "s\n", nom, quantitat, preu,
@@ -292,14 +303,17 @@ public class Main {
                     }
                 });
 
+                //Recompta el preu total de tots els articles
                 productes.forEach(producte -> {
                     float preu = producte.getPreu();
                     preuTotal[0] += preu;
                     return;
                 });
 
+                //Imprimeix el preu total del articles
                 System.out.println("TOTAL: " + preuTotal[0]);
 
+                //Vuidem el tot els arraylists
                 carret.clear();
                 productes.clear();
                 codiBarresP.clear();
@@ -312,6 +326,7 @@ public class Main {
         }
     }
 
+    //Recull les exceptions que llançen i printa el missatge al Exceptions.dat
     public static void recollirExcepcions() throws FileNotFoundException {
 
         File Exceptions = new File("./logs/Exceptions.dat");
@@ -330,6 +345,7 @@ public class Main {
 
     }
 
+    //Metode pre crear els fitxers que necessitem per les excepcions
     public static void crearFitxers() throws IOException {
 
         try {
@@ -338,8 +354,11 @@ public class Main {
             File UpdateTextilPrices = new File("./updates/UpdateTextilPrices.dat");
             File Exceptions = new File("./logs/Exceptions.dat");
 
+            //Crea les carpetes
             logs.mkdirs();
             updates.mkdirs();
+
+            //Crea els fitxers
             UpdateTextilPrices.createNewFile();
             Exceptions.createNewFile();
 
@@ -351,12 +370,14 @@ public class Main {
 
     }
 
+    //Busca els productes mitjançant streams i el codi de barres
     public static void buscarProductes() {
+
 
         System.out.println("Introdueix el codi de barres: ");
         String codiDeBarres = scan.nextLine().trim();
 
-        List<String> buscadorProductes = carret.entrySet().stream()
+        List<String> buscadorProductes = carret.entrySet().stream() //Agafa els valors del carret
                 .filter(entry -> entry.getKey().equals(codiDeBarres)) //Compara keys
                 .map(Map.Entry::getValue) //Obté el valor
                 .toList(); //Guarda el valor a la llista
