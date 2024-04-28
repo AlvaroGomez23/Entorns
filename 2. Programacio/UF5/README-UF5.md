@@ -20,6 +20,15 @@ Busca un producte mitjançant un codi de barres del producte
 ### Metodes afegirAlimentacio(), afegirTextil(), afegirElectronica()
 Afegeix els corresponents articles al carret
 
+### Metode comprovarCodiBarres
+Comprova si el preu del document UpdateTextilPrices correspon al que ha introduit l'usuari i cambia el preu
+
+### Metode crearFitxers
+Genera l'estructura de fitxers que es demana
+
+### Metode recollirExcepcions
+Recolleix les excepcions que s'han produit al llarg d'executar el programa
+
 ## Classe Producte
 Classe abstracta que genera l'estructura principal de les altres classes
 Té els mètodes getPreu, getNom, getCodiBarres i compareTo que faig servir en les eltres classes
