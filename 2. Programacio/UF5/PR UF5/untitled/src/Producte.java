@@ -25,6 +25,7 @@ public abstract class Producte implements Comparable {
         throw new UnsupportedOperationException("Unimplemented method 'compareTo'");
     }
 
+
     
 
     
